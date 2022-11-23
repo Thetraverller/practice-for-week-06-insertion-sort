@@ -1,3 +1,4 @@
+
 // Insertion Sort out-of-place
 // Do not modify the original array
 function insertionSort(arr) {
@@ -19,42 +20,33 @@ function insertionSort(arr) {
   */
 
   // Your code here
-  let copy = arr.slice(); // [4, 6, 1, 5, 3, 5]
-  let sorted = [];
-
-  while (copy.length > 0) {
-
-    console.log(sorted.join(','));
-    let current = copy.pop();  // 5
-
-    for (let i = sorted.length - 1; i >= -1; i--) {
-
-      if (sorted[i] <= current) {
-        sorted.splice(i+1, 0, current);
+  let copyArr = arr.slice(); //[4, 6, 1, 5, 3, 5];
+  let sorted = [copyArr.shift()]
+  while (copyArr.length) {
+    let curr = copyArr.shift(); // [6]
+    sorted.unshift(null); // [null, 4]
+    for (let i = 0; i < sorted.length; i++) {
+      // if at the end of loop [- OR -]  if the value after null is greater than curr
+      if (i === sorted.length - 1 || sorted[i + 1] > curr) {
+        // replace null with curr
+        sorted[i] = curr;
         break;
       }
-
-      if (i === -1) {
-        sorted.unshift(current);
-      }
+      [sorted[i + 1], sorted[i]] = [sorted[i], sorted[i + 1]]; //[null, 4] => [4, null]
     }
-
   }
   return sorted;
 }
 
 let arr1 = [4, 6, 1, 5, 3, 5];
 console.log(insertionSort(arr1));
-
-// In-place Insertion Sort
-// Mutates the original array
+//============================================
 function insertionSortInPlace(arr) {
   /*
   Pseudocode:
-
   Set a pointer dividing the array into sorted and unsorted halves
   Repeat while the unsorted half is not empty:
-  - make sure you have a console.log(sorted.join(',')) as your first line in the while loop
+  - make sure you have a console.log(arr.join(',')) as your first line in the while loop
   - Grab the first value from the unsorted half
   - For each value starting from the divider,
   - Check if the value to the left is smaller than the unsorted value
@@ -64,28 +56,46 @@ function insertionSortInPlace(arr) {
   - Increment the dividing pointer and repeat
   Return the mutated array
   */
+  let divider = 0;  //aka pointer
+  // [4, 6, 1, 5, 3, 5]
+  while (divider <= arr.length - 2) {
+    temp = arr[divider]; // 4
 
-  // Your code here
-  let divider = 0;
-  while (divider < arr.length) {
-    let current = arr[divider];
-    let insertionPoint = divider;
 
-    for (let i = divider; i >= 0; i--) {
-      insertionPoint = i;
-      if (arr[i - 1] < current) {
-        insertionPoint = i;
+
+    for (let i = divider; i >= 0; i--) { // [4, 6, 1] ... temp = 1
+
+      if (i === 0) {
+        arr[i] = temp;
+        console.log(arr.join(","))
+      }
+
+
+      else if (arr[i - 1] > temp) {
+        arr[i] = arr[i - 1];
+        console.log(arr.join(","))
+      }
+
+      else if (arr[i - 1] < temp) { // 2 < 3 ?
+        arr[i] = temp;
+        console.log(arr.join(","))
         break;
-      } else {
-        arr[i] = arr[i-1];
       }
     }
-    arr.splice(insertionPoint, 1, current);
+
     divider++;
-    console.log(arr.join(','));
+  }
+
+  if (arr[arr.length -2] > arr[arr.length -1]){
+         [arr[arr.length -1], arr[arr.length -2]] = [arr[arr.length -2], arr[arr.length -1]]
   }
 
   return arr;
 }
 
-module.exports = [insertionSort, insertionSortInPlace];
+
+let arr1 = [4, 6, 1, 5, 3, 5];
+console.log(insertionSortInPlace(arr1));
+
+
+// module.exports = [insertionSort, insertionSortInPlace];
