@@ -94,8 +94,8 @@ function insertionSortInPlace(arr) {
 }
 
 
-let arr1 = [4, 6, 1, 5, 3, 5];
-console.log(insertionSortInPlace(arr1));
+let arr2 = [4, 6, 1, 5, 3, 5];
+console.log(insertionSortInPlace(arr2));
 
 
-// module.exports = [insertionSort, insertionSortInPlace];
+module.exports = [insertionSort, insertionSortInPlace];
